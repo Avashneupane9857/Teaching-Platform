@@ -10,14 +10,14 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:Saibaba9857@localhost:5432/"
 }
 
 model User {
   id       Int     @id @default(autoincrement())
   username String  @unique
   password String
-  role     String // "teacher" or "student"
+  role     Role
   classes  Class[] @relation("UserClasses")
 
   Class Class[] @relation("ClassStudents")
@@ -29,5 +29,10 @@ model Class {
   teacherId Int
   teacher   User     @relation("UserClasses", fields: [teacherId], references: [id])
   students  User[]   @relation("ClassStudents")
-  slides    String[] // URLs of uploaded slides
+  slides    String[]
+}
+
+enum Role {
+  Student
+  Teacher
 }
