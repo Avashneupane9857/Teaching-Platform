@@ -1,0 +1,1 @@
+{"root":["./src/app.ts","./src/server.ts","./src/websocket.ts","./src/middlewares/auth.ts","./src/routes/auth.ts","./src/routes/class.ts","./src/services/s3.ts","./src/utils/jwt.ts"],"version":"5.7.2"}
