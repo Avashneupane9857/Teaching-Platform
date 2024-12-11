@@ -1,5 +1,11 @@
+import Chat from "../components/ChatBox";
+
 function Classroom() {
-  return <div>Classroom</div>;
+  return (
+    <div>
+      <Chat />
+    </div>
+  );
 }
 
 export default Classroom;

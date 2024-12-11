@@ -29,7 +29,7 @@ exports.authRoutes.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
             data: { username, password: hashedPassword, role },
         });
         console.log(user);
-        res.status(201).json({ message: "User created", user });
+        res.status(200).json({ message: "User created", user });
     }
     catch (error) {
         console.log("i am in error");
