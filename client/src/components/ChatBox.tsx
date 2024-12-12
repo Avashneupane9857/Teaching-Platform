@@ -61,38 +61,40 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <header className="bg-blue-600 text-white text-center py-4 text-xl">
-        Chat System
-      </header>
-      <div className="flex-1 overflow-y-auto p-4 space-y-2">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`p-2 rounded-md max-w-sm ${
-              message.self
-                ? "bg-green-200 self-end text-right"
-                : "bg-blue-200 text-left"
-            }`}
+    <div className="flex h-screen bg-gray-100">
+      <div className="flex flex-col w-1/3  h-full bg-white shadow-lg">
+        <header className="bg-blue-600 text-white text-center py-4 text-xl">
+          Chat System
+        </header>
+        <div className="flex-1 overflow-y-auto p-4 space-y-2">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`p-2 rounded-md max-w-sm ${
+                message.self
+                  ? "bg-green-200 self-end text-right"
+                  : "bg-blue-200 text-left"
+              }`}
+            >
+              {message.text}
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center p-4 bg-gray-100 border-t border-gray-300">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <button
+            onClick={sendMessage}
+            className="ml-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
           >
-            {message.text}
-          </div>
-        ))}
-      </div>
-      <div className="flex items-center p-4 bg-white border-t border-gray-300">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message"
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-        />
-        <button
-          onClick={sendMessage}
-          className="ml-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-        >
-          Send
-        </button>
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );
