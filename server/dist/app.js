@@ -37,7 +37,7 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/auth", auth_1.authRoutes);
-app.use("/classes", class_1.classRoutes);
+app.use("/class", class_1.classRoutes);
 const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

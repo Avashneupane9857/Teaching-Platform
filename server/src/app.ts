@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/auth", authRoutes);
-app.use("/classes", classRoutes);
+app.use("/class", classRoutes);
 
 
 const server = app.listen(PORT, () => {
