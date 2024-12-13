@@ -1,11 +1,7 @@
-import Chat from "../components/ChatBox";
-
 function Dashboard() {
-  return (
-    <div>
-      <Chat />
-    </div>
-  );
+  return <div>
+    
+  </div>;
 }
 
 export default Dashboard;

@@ -61,8 +61,9 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="flex flex-col w-1/3  h-full bg-white shadow-lg">
+    <div className="flex h-screen bg-gray-100 justify-end">
+      {/* Chat box */}
+      <div className="flex flex-col w-1/3 h-full bg-white shadow-lg">
         <header className="bg-blue-600 text-white text-center py-4 text-xl">
           Chat System
         </header>
