@@ -6,6 +6,7 @@ export const classRoutes=Router()
 classRoutes.post("/create",middleware,async(req:any,res:any)=>{
 const {title}=req.body;
 const userId=   req.userId
+
 const role=req.role
 if(role !== "Teacher"){
     return res.status(403).json({ error: "Only teachers can create classes" });
@@ -52,6 +53,6 @@ classRoutes.get("/", middleware, async (req, res) => {
       });
       res.status(200).json({ message: "Successfully joined the class" });
     } catch (error) {
-      res.status(500).json({ error: "Failed to join class" });
+      res.status(500).json({ error: "Failed to join class maybe class id is wrong" });
     }
   });
