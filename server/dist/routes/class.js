@@ -60,6 +60,6 @@ exports.classRoutes.post("/join/:classId", middleware_1.middleware, (req, res) =
         res.status(200).json({ message: "Successfully joined the class" });
     }
     catch (error) {
-        res.status(500).json({ error: "Failed to join class" });
+        res.status(500).json({ error: "Failed to join class maybe class id is wrong" });
     }
 }));

@@ -19,10 +19,11 @@ function SignUp() {
         password,
         role,
       });
+
       console.log(response);
       if (response.status == 200) {
         console.log("Signup successful:", response.data);
-        navigate("/dashboard", { replace: true });
+        navigate("/login", { replace: true });
       }
     } catch (error) {
       console.log(error);

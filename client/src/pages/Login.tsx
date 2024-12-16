@@ -11,10 +11,15 @@ function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      localStorage.removeItem("token");
       const response = await axios.post(`${backendUrl}/auth/signin`, {
         username,
         password,
       });
+      const { token } = response.data;
+      // Store token in localStorage
+      localStorage.setItem("token", token);
+      console.log(token);
       if (response.status == 200) {
         console.log("succesfull login", response.data);
         navigate("/dashboard");

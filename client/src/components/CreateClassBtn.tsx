@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 function CreateClass() {
   const navigate = useNavigate();
   const createClass = () => {
-    navigate("create/class");
+    navigate("/create/class");
   };
   return (
     <div>
