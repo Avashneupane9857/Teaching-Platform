@@ -6,18 +6,23 @@ function ClassCreation() {
   const [title, setTitle] = useState("");
   const token = localStorage.getItem("token");
   const createClass = async () => {
-    await axios.post(
-      `${backendUrl}/class/create`,
-      { title: title },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include the token
-        },
-      }
-    );
-    setTitle("");
-    alert("Class created successfully!");
-    window.location.reload();
+    try {
+      await axios.post(
+        `${backendUrl}/class/create`,
+        { title: title },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token
+          },
+        }
+      );
+      setTitle("");
+      alert("Class created successfully!");
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+      alert("Teacher can only create classes !");
+    }
   };
   return (
     <div className="flex items-center justify-center h-screen">
