@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { backendUrl } from "../config";
 
 function Classes() {
@@ -8,8 +8,10 @@ function Classes() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [classes, setClasses] = useState([]);
-  const handleClass = () => {
-    navigate("/class/1");
+  const handleClass = (id) => {
+    //send classId here
+
+    navigate(`/class/${id}`);
   };
   useEffect(() => {
     const fetchClasses = async () => {
@@ -19,7 +21,7 @@ function Classes() {
             Authorization: `Bearer ${token}`, //token include gareko
           },
         });
-        console.log(response);
+
         setClasses(response.data);
       } catch (err) {
         console.log(err);
@@ -39,7 +41,7 @@ function Classes() {
             <p>{data.teacherId}</p>
             <p>Slides</p>
             <button
-              onClick={handleClass}
+              onClick={() => handleClass(data.id)}
               className="bg-blue-700 rounded-lg w-20 hover:bg-blue-600 text-white"
             >
               Join
