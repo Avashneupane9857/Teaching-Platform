@@ -3,7 +3,7 @@ import SlideViewer from "../components/SlideViewer";
 
 function Classroom() {
   return (
-    <div>
+    <div className=" ">
       <Chat />
       <SlideViewer />
     </div>

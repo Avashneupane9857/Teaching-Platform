@@ -1,22 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 const WEBSOCKET_URL = "ws://localhost:8080";
 
 const Chat: React.FC = () => {
+  const { classId } = useParams<{ classId: string }>(); // Extract classId from the URL
   const [messages, setMessages] = useState<{ text: string; self: boolean }[]>(
     []
   );
   const [input, setInput] = useState<string>("");
   const socket = useRef<WebSocket | null>(null);
-  const classId = 1; // Example classId; dynamically fetch this as needed
 
   useEffect(() => {
+    if (!classId) return; // Ensure classId is available before proceeding
+
     // Initialize WebSocket connection
     socket.current = new WebSocket(WEBSOCKET_URL);
 
     socket.current.onopen = () => {
       // Send a message to join the class
-      const joinMessage = JSON.stringify({ type: "join", classId });
+      const joinMessage = JSON.stringify({
+        type: "join",
+        classId: parseInt(classId),
+      });
       socket.current?.send(joinMessage);
       console.log("Connected to WebSocket server");
     };
@@ -39,14 +45,14 @@ const Chat: React.FC = () => {
     return () => {
       socket.current?.close();
     };
-  }, []);
+  }, [classId]); // Re-run effect if classId changes
 
   const sendMessage = () => {
     if (input.trim() && socket.current?.readyState === WebSocket.OPEN) {
       // Send chat message in the required format
       const message = {
         type: "chat",
-        classId,
+        classId: parseInt(classId || "0"),
         content: input,
       };
       socket.current.send(JSON.stringify(message));
