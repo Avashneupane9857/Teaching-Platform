@@ -21,16 +21,11 @@ export default function Video() {
       audio={true}
       token={token}
       serverUrl={wsUrl}
-      // Use the default LiveKit theme for nice styles.
       data-lk-theme="default"
       style={{ height: "100vh" }}
     >
-      {/* Your custom component with basic video conferencing functionality. */}
       <MyVideoConference />
-      {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
       <RoomAudioRenderer />
-      {/* Controls for the user to start/stop audio, video, and screen
-        share tracks and to leave the room. */}
       <ControlBar />
     </LiveKitRoom>
   );
@@ -51,8 +46,6 @@ function MyVideoConference() {
       tracks={tracks}
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
-      {/* The GridLayout accepts zero or one child. The child is used
-        as a template to render all passed in tracks. */}
       <ParticipantTile />
     </GridLayout>
   );
