@@ -32,6 +32,7 @@ const auth_1 = require("./routes/auth");
 const class_1 = require("./routes/class");
 const dotenv = __importStar(require("dotenv"));
 const slides_1 = require("./routes/slides");
+const video_1 = require("./routes/video");
 dotenv.config();
 const PORT = process.env.PORT || 5001;
 const app = (0, express_1.default)();
@@ -40,6 +41,7 @@ app.use(express_1.default.json());
 app.use("/auth", auth_1.authRoutes);
 app.use("/class", class_1.classRoutes);
 app.use("/slides", slides_1.slideRoutes);
+app.use("/video", video_1.videoRoutes);
 const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
