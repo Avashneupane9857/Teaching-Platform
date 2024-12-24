@@ -24,15 +24,26 @@ model User {
 }
 
 model Class {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   title     String
   teacherId Int
-  teacher   User     @relation("UserClasses", fields: [teacherId], references: [id])
-  students  User[]   @relation("ClassStudents")
-  slides    String[]
+  teacher   User    @relation("UserClasses", fields: [teacherId], references: [id])
+  students  User[]  @relation("ClassStudents")
+  slides    Slide[]
 }
 
 enum Role {
   Student
   Teacher
+}
+
+model Slide {
+  id          Int      @id @default(autoincrement())
+  filename    String
+  s3Key       String
+  uploadedAt  DateTime @default(now())
+  classId     Int
+  class       Class    @relation(fields: [classId], references: [id])
+  totalSlides Int      @default(1)
+  currentPage Int      @default(1)
 }
