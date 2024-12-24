@@ -5,12 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 import dotenv from "dotenv"
 import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { prisma } from "../prisma";
-import { Readable } from 'node:stream'; // This is the correct import
+import { Readable } from 'node:stream'; 
 
 dotenv.config();
 
 export const slidesRoutes=Router()
-
+console.log('AWS Region:', process.env.AWS_REGION);
+console.log('Bucket Name:', process.env.S3_BUCKET_NAME);
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
@@ -35,7 +36,7 @@ const upload = multer({
 });
 
 
-slidesRoutes.post("/:classId/slides",middleware, upload.single('slide'),async(req:any,res:any)=>{
+slidesRoutes.post("/:classId", upload.single('file'),async(req:any,res:any)=>{
   try {
     const { classId } = req.params;
     const file = req.file;
@@ -75,7 +76,7 @@ slidesRoutes.post("/:classId/slides",middleware, upload.single('slide'),async(re
 
 
 
-slidesRoutes.get('/:classId/slides/:slideId', async (req:any, res:any) => {
+slidesRoutes.get('/:classId/:slideId', async (req:any, res:any) => {
   try {
     const { classId, slideId } = req.params;
 
@@ -118,7 +119,7 @@ slidesRoutes.get('/:classId/slides/:slideId', async (req:any, res:any) => {
 
 
 
-slidesRoutes.delete('/:classId/slides/:slideId', 
+slidesRoutes.delete('/:classId/:slideId', 
   middleware,
   async (req:any, res:any) => {
     try {
@@ -135,13 +136,11 @@ slidesRoutes.delete('/:classId/slides/:slideId',
         return res.status(404).json({ error: 'Slide not found' });
       }
 
-      // Delete from S3
+      
       await s3Client.send(new DeleteObjectCommand({
         Bucket: process.env.S3_BUCKET_NAME,
         Key: slide.s3Key,
       }));
-
-      // Delete from database
       await prisma.slide.delete({
         where: {
           id: parseInt(slideId)

@@ -23,9 +23,8 @@ const createToken=async({classId, username}:videoProps)=>{
     return token;
 }
 videoRoutes.get("/getToken", async (req:any, res:any) => {
-    try {
+    try   {
       const { classId,username } = req.query; 
-
       if (!classId || !username) {
         return res.status(400).json({ error: "classId and userId are required" });
       }
