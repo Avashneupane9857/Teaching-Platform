@@ -1,17 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { backendUrl } from "../config";
-
+// interface IDTITLE {
+//   id: string;
+//   title: string;
+// }
 function Classes() {
   //yo maybe not needed i have to pass class id dynamically
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [classes, setClasses] = useState([]);
-  const handleClass = (id) => {
+  const handleClass = (id, title) => {
     //send classId here
 
-    navigate(`/class/${id}`);
+    navigate(`/class/${id}/${title}`);
   };
   useEffect(() => {
     const fetchClasses = async () => {
@@ -41,7 +44,7 @@ function Classes() {
             <p>{data.teacherId}</p>
             <p>Slides</p>
             <button
-              onClick={() => handleClass(data.id)}
+              onClick={() => handleClass(data.id, data.title)}
               className="bg-blue-700 rounded-lg w-20 hover:bg-blue-600 text-white"
             >
               Join

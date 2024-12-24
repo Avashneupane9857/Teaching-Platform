@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Chat from "../components/ChatBox";
 import SlideViewer from "../components/SlideViewer";
 import Video from "../components/Video";
