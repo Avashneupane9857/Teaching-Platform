@@ -8,7 +8,12 @@ import { prisma } from "../prisma";
 import { Readable } from 'node:stream'; 
 
 dotenv.config();
-
+interface RequestWithParams extends Request {
+  params: {
+    classId: string;
+    slideId: string;
+  }
+}
 export const slidesRoutes=Router()
 console.log('AWS Region:', process.env.AWS_REGION);
 console.log('Bucket Name:', process.env.S3_BUCKET_NAME);
@@ -75,8 +80,7 @@ slidesRoutes.post("/:classId", upload.single('file'),async(req:any,res:any)=>{
 
 
 
-
-slidesRoutes.get('/:classId/:slideId', async (req:any, res:any) => {
+slidesRoutes.get('/:classId/:slideId', async (req: any, res: any) => {
   try {
     const { classId, slideId } = req.params;
 
@@ -101,15 +105,22 @@ slidesRoutes.get('/:classId/:slideId', async (req:any, res:any) => {
     if (!response.Body) {
       return res.status(404).json({ error: 'Slide not found in S3' });
     }
-   // Set the correct headers
-   res.set('Content-Type', response.ContentType);
-   res.set('Content-Length', response.ContentLength);
 
-   // Convert the response body to a readable stream
-   const stream = Readable.from(await response.Body.transformToByteArray());
-   
-   // Pipe the stream to the response
-   stream.pipe(res);
+    // Set the appropriate headers
+    res.set({
+      'Content-Type': response.ContentType || 'application/octet-stream',
+      'Content-Length': response.ContentLength,
+      'Content-Disposition': `inline; filename="${slide.filename}"`,
+    });
+
+    // Stream the response directly
+    if (response.Body instanceof Readable) {
+      response.Body.pipe(res);
+    } else {
+      // Handle the case where Body might be a different type
+      const stream = Readable.from(response.Body as any);
+      stream.pipe(res);
+    }
   } catch (error) {
     console.error('Error fetching slide:', error);
     res.status(500).json({ error: 'Failed to fetch slide' });
