@@ -12,7 +12,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/create/class" element={<ClassCreation />} />
-        <Route path="/class/:classId/:title" element={<Classroom />} />
+        <Route path="/class/:classId/:username" element={<Classroom />} />
       </Routes>
     </Router>
   );

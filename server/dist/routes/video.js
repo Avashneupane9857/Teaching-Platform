@@ -30,6 +30,7 @@ const createToken = (_a) => __awaiter(void 0, [_a], void 0, function* ({ classId
 exports.videoRoutes.get("/getToken", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { classId, username } = req.query;
+        console.log(classId, username, "i got printed through URL");
         if (!classId || !username) {
             return res.status(400).json({ error: "classId and userId are required" });
         }

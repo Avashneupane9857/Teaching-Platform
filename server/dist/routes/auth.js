@@ -21,35 +21,28 @@ const JWT_SECRET = process.env.JWT_SECRET || "Saibaba9857";
 exports.authRoutes = (0, express_1.Router)();
 exports.authRoutes.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password, role } = req.body;
-    console.log(username, password, role);
     try {
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-        console.log(hashedPassword);
         const user = yield prisma_1.prisma.user.create({
             data: { username, password: hashedPassword, role },
         });
-        console.log(user);
         res.status(200).json({ message: "User created", user });
     }
     catch (error) {
-        console.log("i am in error");
         console.log(error);
         res.status(400).json({ error: "User already exists" });
     }
 }));
 exports.authRoutes.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
-    console.log(username, password);
     try {
         const user = yield prisma_1.prisma.user.findUnique({ where: { username } });
-        console.log(user);
         if (!user || !(yield bcrypt_1.default.compare(password, user.password))) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
         const token = jsonwebtoken_1.default.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
             expiresIn: "1h",
         });
-        console.log(token);
         res.status(200).json({ token, role: user.role });
     }
     catch (error) {

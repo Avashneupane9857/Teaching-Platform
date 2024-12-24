@@ -26,11 +26,11 @@ export const middleware=(req:any,res:any,next:any)=>{
         const decoded = jwt.verify(token, secret) as { userId: string, role: string }
         
    
-        console.log("Decoded token:", decoded)
+      
 
         req.userId = decoded.userId
         req.role=decoded.role
-        console.log(req.userId)
+       
         
         next()
     } 

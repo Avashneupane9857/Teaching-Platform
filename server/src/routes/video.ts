@@ -24,14 +24,14 @@ const createToken=async({classId, username}:videoProps)=>{
 videoRoutes.get("/getToken", async (req:any, res:any) => {
     try {
       const { classId,username } = req.query; 
-  
+
       if (!classId || !username) {
         return res.status(400).json({ error: "classId and userId are required" });
       }
   
   
       const token = await createToken({classId, username});
-  
+
       res.status(200).json({ token });
     } catch (error) {
       console.error("Error generating token:", error);

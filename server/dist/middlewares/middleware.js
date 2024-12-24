@@ -25,10 +25,8 @@ const middleware = (req, res, next) => {
             });
         }
         const decoded = jsonwebtoken_1.default.verify(token, secret);
-        console.log("Decoded token:", decoded);
         req.userId = decoded.userId;
         req.role = decoded.role;
-        console.log(req.userId);
         next();
     }
     catch (error) {
