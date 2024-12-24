@@ -3,8 +3,10 @@ import multer from "multer";
 import { middleware } from "../middlewares/middleware";
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from "dotenv"
-import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { prisma } from "../prisma";
+import { Readable } from 'node:stream'; // This is the correct import
+
 dotenv.config();
 
 export const slidesRoutes=Router()
@@ -45,7 +47,7 @@ slidesRoutes.post("/:classId/slides",middleware, upload.single('slide'),async(re
     const slideId = uuidv4();
     const s3Key = `slides/${classId}/${slideId}-${file.originalname}`;
 
-    await S3Client.send(new PutObjectCommand({
+    await s3Client.send(new PutObjectCommand({
       Bucket: process.env.S3_BUCKET_NAME,
       Key: s3Key,
       Body: file.buffer,
@@ -98,8 +100,15 @@ slidesRoutes.get('/:classId/slides/:slideId', async (req:any, res:any) => {
     if (!response.Body) {
       return res.status(404).json({ error: 'Slide not found in S3' });
     }
+   // Set the correct headers
+   res.set('Content-Type', response.ContentType);
+   res.set('Content-Length', response.ContentLength);
 
-    response.Body.pipe(res);
+   // Convert the response body to a readable stream
+   const stream = Readable.from(await response.Body.transformToByteArray());
+   
+   // Pipe the stream to the response
+   stream.pipe(res);
   } catch (error) {
     console.error('Error fetching slide:', error);
     res.status(500).json({ error: 'Failed to fetch slide' });
@@ -127,7 +136,7 @@ slidesRoutes.delete('/:classId/slides/:slideId',
       }
 
       // Delete from S3
-      await s3Client.send(new PutObjectCommand({
+      await s3Client.send(new DeleteObjectCommand({
         Bucket: process.env.S3_BUCKET_NAME,
         Key: slide.s3Key,
       }));
