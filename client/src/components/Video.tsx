@@ -89,13 +89,31 @@ import {
 } from "@livekit/components-react";
 
 import "@livekit/components-styles";
+import axios from "axios";
 
 import { Track } from "livekit-client";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { backendUrl } from "../config";
 
-const wsUrl = "wss://avashnp-p123vr0b.livekit.cloud";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzUwNjE2NDksImlzcyI6IkFQSWdUUUZEZzVNcjdpSCIsIm5iZiI6MTczNTA2MDc0OSwic3ViIjoiU3Vrc2hhbSIsInZpZGVvIjp7ImNhblB1Ymxpc2giOnRydWUsImNhblB1Ymxpc2hEYXRhIjp0cnVlLCJjYW5TdWJzY3JpYmUiOnRydWUsInJvb20iOiJhdmFzaFJvb20iLCJyb29tSm9pbiI6dHJ1ZX19.tZ4UGyXdI6stXc9ZgUJyI5tRNBsh3nmfTZXXUfnOGNQ";
+// const token =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzUwNjE2NDksImlzcyI6IkFQSWdUUUZEZzVNcjdpSCIsIm5iZiI6MTczNTA2MDc0OSwic3ViIjoiU3Vrc2hhbSIsInZpZGVvIjp7ImNhblB1Ymxpc2giOnRydWUsImNhblB1Ymxpc2hEYXRhIjp0cnVlLCJjYW5TdWJzY3JpYmUiOnRydWUsInJvb20iOiJhdmFzaFJvb20iLCJyb29tSm9pbiI6dHJ1ZX19.tZ4UGyXdI6stXc9ZgUJyI5tRNBsh3nmfTZXXUfnOGNQ";
 export default function Video() {
+  const [token, setToken] = useState("");
+  const { classId, username } = useParams();
+  const wsUrl = "wss://avashnp-p123vr0b.livekit.cloud";
+  useEffect(() => {
+    const fetchToken = async () => {
+      const response = await axios.get(`${backendUrl}/video/getToken`, {
+        params: { classId, username },
+      });
+
+      console.log(response.data.token);
+      setToken(response.data.token);
+    };
+    fetchToken();
+  }, [classId, username]);
+
   return (
     <LiveKitRoom
       video={true}
