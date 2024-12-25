@@ -12,7 +12,7 @@ function ClassCreation() {
         { title: title },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -26,7 +26,7 @@ function ClassCreation() {
   };
   return (
     <div className="flex items-center justify-center h-screen">
-      <section className="w-[50%] bg-slate-200 border-[1px] h-28 p-8 relative top-5 shadow-2xl rounded-lg">
+      <section className="w-[50%] bg-slate-200 border-[1px] h-52 p-8 relative top-5 shadow-2xl rounded-lg">
         <h1 className="font-semibold text-2xl">Title</h1>
         <input
           type="text"
@@ -35,6 +35,9 @@ function ClassCreation() {
           onChange={(e) => setTitle(e.target.value)}
           className="border-2 rounded-lg"
         />
+
+        <h1 className="mt-4">Upload Slide</h1>
+
         <button
           onClick={createClass}
           className="bg-slate-700  rounded-xl w-16 text-white"

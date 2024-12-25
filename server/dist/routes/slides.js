@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.slidesRoutes = void 0;
 const express_1 = require("express");
 const multer_1 = __importDefault(require("multer"));
+const middleware_1 = require("../middlewares/middleware");
 const uuid_1 = require("uuid");
 const dotenv_1 = __importDefault(require("dotenv"));
 const client_s3_1 = require("@aws-sdk/client-s3");
@@ -102,6 +103,8 @@ exports.slidesRoutes.get('/:classId/:slideId', (req, res) => __awaiter(void 0, v
             'Content-Type': response.ContentType || 'application/octet-stream',
             'Content-Length': response.ContentLength,
             'Content-Disposition': `inline; filename="${slide.filename}"`,
+            'Access-Control-Allow-Origin': process.env.FRONTEND_URL,
+            'Access-Control-Allow-Credentials': 'true',
         });
         // Stream the response directly
         if (response.Body instanceof node_stream_1.Readable) {
@@ -118,7 +121,7 @@ exports.slidesRoutes.get('/:classId/:slideId', (req, res) => __awaiter(void 0, v
         res.status(500).json({ error: 'Failed to fetch slide' });
     }
 }));
-exports.slidesRoutes.delete('/:classId/:slideId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.slidesRoutes.delete('/:classId/:slideId', middleware_1.middleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { classId, slideId } = req.params;
         const slide = yield prisma_1.prisma.slide.findFirst({

@@ -111,6 +111,8 @@ slidesRoutes.get('/:classId/:slideId', async (req: any, res: any) => {
       'Content-Type': response.ContentType || 'application/octet-stream',
       'Content-Length': response.ContentLength,
       'Content-Disposition': `inline; filename="${slide.filename}"`,
+      'Access-Control-Allow-Origin':  '*',
+      'Access-Control-Allow-Credentials': 'true',
     });
 
     // Stream the response directly

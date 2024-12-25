@@ -2,16 +2,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { backendUrl } from "../config";
-// interface IDTITLE {
-//   id: string;
-//   title: string;
-// }
+import SlideUploader from "./SlideUploader";
+interface ClassType {
+  id: string;
+  title: string;
+  teacherId: string;
+}
 function Classes() {
   //yo maybe not needed i have to pass class id dynamically
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const [classes, setClasses] = useState([]);
-  const handleClass = (id, title) => {
+  const [classes, setClasses] = useState<ClassType[]>([]);
+
+  const handleClass = (id: string, title: string) => {
     //send classId here
 
     navigate(`/class/${id}/${title}`);
@@ -21,7 +24,7 @@ function Classes() {
       try {
         const response = await axios.get(`${backendUrl}/class`, {
           headers: {
-            Authorization: `Bearer ${token}`, //token include gareko
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -43,6 +46,7 @@ function Classes() {
             <p>{data.title}</p>
             <p>{data.teacherId}</p>
             <p>Slides</p>
+            <SlideUploader classId={data.id} />
             <button
               onClick={() => handleClass(data.id, data.title)}
               className="bg-blue-700 rounded-lg w-20 hover:bg-blue-600 text-white"
@@ -55,5 +59,7 @@ function Classes() {
     </div>
   );
 }
+
+//Place slide here use get api here
 
 export default Classes;

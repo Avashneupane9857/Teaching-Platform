@@ -66,7 +66,7 @@ function Classroom() {
                   maxHeight: "100%",
                 }}
               >
-                <SlideViewer />
+                <SlideViewer  />
               </div>
               <div
                 className="chat-container"
