@@ -103,7 +103,7 @@ exports.slidesRoutes.get('/:classId/:slideId', (req, res) => __awaiter(void 0, v
             'Content-Type': response.ContentType || 'application/octet-stream',
             'Content-Length': response.ContentLength,
             'Content-Disposition': `inline; filename="${slide.filename}"`,
-            'Access-Control-Allow-Origin': process.env.FRONTEND_URL,
+            'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': 'true',
         });
         // Stream the response directly

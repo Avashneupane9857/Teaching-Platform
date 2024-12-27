@@ -1,16 +1,20 @@
 import { Router } from "express";
 import { AccessToken, VideoGrant } from 'livekit-server-sdk';
-
+import dotenv from "dotenv"
+dotenv.config();
 export const videoRoutes=Router() 
 interface videoProps{
     classId:string,
     username:string
 }
+const apiKey = process.env.LIVEKIT_API_KEY;
+const apiSecret = process.env.LIVEKIT_API_SECRET;
+console.log(apiKey,apiSecret)
 // const createToken=async()=>{
 const createToken=async({classId, username}:videoProps)=>{
     // const classIds="avashRoom"
     // const usernames="Suksham"
-    const at =new AccessToken(process.env.LIVEKIT_API_KEY,process.env.LIVEKIT_API_SECRET,{
+    const at =new AccessToken(apiKey,apiSecret,{
         identity:username
     })
     const videoGrant:VideoGrant={
