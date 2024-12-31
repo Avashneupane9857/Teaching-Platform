@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { backendUrl } from "../config";
 import { useNavigate } from "react-router-dom";
-export const SignUp = () => {
+const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
@@ -125,3 +125,4 @@ export const SignUp = () => {
     </div>
   );
 };
+export default SignUp;

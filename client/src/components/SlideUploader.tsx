@@ -3,7 +3,7 @@ import axios from "axios";
 import { Upload } from "lucide-react";
 import { backendUrl } from "../config";
 
-const SlideUploader = (classId) => {
+const SlideUploader = ({ classId }) => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
