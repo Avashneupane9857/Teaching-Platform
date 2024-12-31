@@ -2,7 +2,7 @@ import { useState } from "react";
 import Chat from "../components/ChatBox";
 import SlideViewer from "../components/SlideViewer";
 import Video from "../components/Video";
-import { PDFControls } from "../components/PDFControls";
+// import { PDFControls } from "../components/PDFControls";
 
 function Classroom() {
   const [isVideoPrimary, setIsVideoPrimary] = useState(true);
