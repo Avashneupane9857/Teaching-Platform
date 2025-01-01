@@ -101,6 +101,7 @@ import { backendUrl } from "../config";
 export default function Video() {
   const [token, setToken] = useState("");
   const { classId, username } = useParams();
+
   const wsUrl = "wss://avashnp-p123vr0b.livekit.cloud";
   useEffect(() => {
     const fetchToken = async () => {
@@ -140,9 +141,18 @@ function MyVideoConference() {
     ],
     { onlySubscribed: false }
   );
+
+  const new_tracks = tracks.filter((track) => {
+    {
+      if (track.participant.identity == "admin") {
+        return true;
+      }
+    }
+  });
+
   return (
     <GridLayout
-      tracks={tracks}
+      tracks={new_tracks!}
       style={{ height: "calc(100% - var(--lk-control-bar-height))" }}
     >
       <ParticipantTile />

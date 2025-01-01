@@ -12,14 +12,21 @@ const apiSecret = process.env.LIVEKIT_API_SECRET;
 console.log(apiKey,apiSecret)
 // const createToken=async()=>{
 const createToken=async({classId, username}:videoProps)=>{
+  var can_publish =false
     // const classIds="avashRoom"
     // const usernames="Suksham"
     const at =new AccessToken(apiKey,apiSecret,{
         identity:username
     })
+
+    if (username == "admin" ){  
+      can_publish = true
+    }
+    
     const videoGrant:VideoGrant={
         room:classId,
-        roomJoin:true
+        roomJoin:true,
+        canPublish:can_publish
     }
     at.addGrant(videoGrant)
     const token =await at.toJwt()
@@ -29,6 +36,7 @@ const createToken=async({classId, username}:videoProps)=>{
 videoRoutes.get("/getToken", async (req:any, res:any) => {
     try   {
       const { classId,username } = req.query; 
+
       if (!classId || !username) {
         return res.status(400).json({ error: "classId and userId are required" });
       }
